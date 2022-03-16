@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TarefasExport;
 use App\Models\Tarefa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 //use Mail;
 use App\Mail\NovaTarefaMail;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TarefaController extends Controller
 {
@@ -162,6 +164,28 @@ class TarefaController extends Controller
      */
     public function destroy(Tarefa $tarefa)
     {
-        dd($tarefa);
+        $user_id  = auth()->user()->id;
+
+        if (!$tarefa->user_id == $user_id) {
+            return view('acesso-negado');
+        }
+
+        $tarefa->delete();
+        return redirect()->route('tarefa.index');
     }
+
+
+    public function exportacao($extensao)
+    {
+
+        if($extensao == 'xlsx' || $extensao == 'csv' || $extensao == 'pdf'){
+
+            return Excel::download(new TarefasExport, 'tarefas.'.$extensao);
+
+        }else{
+
+            return redirect()->route('tarefa.index');
+        }
+    }
+
 }

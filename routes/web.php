@@ -14,7 +14,7 @@ use App\Mail\MensagemTesteMail;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('bem-vindo');
 });
 
 Auth::routes(['verify'=> true]);
@@ -22,7 +22,7 @@ Auth::routes(['verify'=> true]);
 /*Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home')->middleware('verified');
 */
-
+Route::get('tarefa/exportacao/{extensao}','App\Http\Controllers\TarefaController@exportacao')->name('tarefa.exportacao');
 Route::resource('tarefa','App\Http\Controllers\TarefaController')->middleware('verified');
 
 Route::get('/mensagem-teste', function(){

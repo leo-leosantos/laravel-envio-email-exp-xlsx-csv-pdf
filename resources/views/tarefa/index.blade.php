@@ -1,11 +1,25 @@
 @extends('layouts.app')
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Tarefas</div>
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-4">
+                                Tarefas
+                            </div>
+                            <div class="col-8">
+                                <div class="float-right">
+                                    <a href="{{ route('tarefa.create') }}" class=" mr-3 float-right btn btn-success">Nova Tarefa</a>
+                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'xlsx']) }}" class=" mr-3 float-right btn btn-info">XLSX</a>
+                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'csv']) }}" class=" mr-3 float-right btn btn-info">CVS</a>
+                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'pdf']) }}" class=" mr-3 float-right btn btn-info">PDF</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-body">
                         <table class="table">
                             <thead>
@@ -23,15 +37,18 @@
                                         <td scope="row">{{ $tarefa->id }}</td>
                                         <td>{{ $tarefa->tarefa }}</td>
                                         <td>{{ date('d/m/Y', strtotime($tarefa->data_limite_conclusao)) }}</td>
-                                        <td> <a href="{{ route('tarefa.edit',['tarefa'=>$tarefa->id]) }}" class="btn btn-warning">Editar</a></td>
+                                        <td> <a href="{{ route('tarefa.edit', ['tarefa' => $tarefa->id]) }}"
+                                                class="btn btn-warning">Editar</a></td>
                                         <td>
-                                            <form id="form_{{ $tarefa->id }}" action="{{ route('tarefa.destroy', ['tarefa'=> $tarefa->id]) }}">
+                                            <form id="form_{{ $tarefa->id }}" method="post"
+                                                action="{{ route('tarefa.destroy', ['tarefa' => $tarefa->id]) }}">
                                                 @method('DELETE')
                                                 @csrf
-                                                <a href="#" onclick="document.getElementById('form_{{ $tarefa->id }}').submit()" class="btn btn-danger"> Excluir</a>
+                                                <a href="#"
+                                                    onclick="document.getElementById('form_{{ $tarefa->id }}').submit()"
+                                                    class="btn btn-danger">Excluir</a>
                                             </form>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -41,7 +58,9 @@
                                 <li class="page-item"><a class="page-link"
                                         href="{{ $tarefas->previousPageUrl() }}">Voltar</a></li>
                                 @for ($i = 1; $i <= $tarefas->lastPage(); $i++)
-                                    <li class="page-item {{ $tarefas->currentPage() == $i ? 'active' : '' }} "><a class="page-link" href="{{ $tarefas->url($i) }}">{{ $i }}</a></li>
+                                    <li class="page-item {{ $tarefas->currentPage() == $i ? 'active' : '' }} "><a
+                                            class="page-link"
+                                            href="{{ $tarefas->url($i) }}">{{ $i }}</a></li>
                                 @endfor
                                 <li class="page-item"><a class="page-link"
                                         href="{{ $tarefas->nextPageUrl() }}">Avançar</a></li>
