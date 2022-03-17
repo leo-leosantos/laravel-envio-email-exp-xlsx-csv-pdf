@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 //use Mail;
 use App\Mail\NovaTarefaMail;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class TarefaController extends Controller
 {
@@ -178,14 +179,23 @@ class TarefaController extends Controller
     public function exportacao($extensao)
     {
 
-        if($extensao == 'xlsx' || $extensao == 'csv' || $extensao == 'pdf'){
+        if ($extensao == 'xlsx' || $extensao == 'csv' || $extensao == 'pdf') {
 
-            return Excel::download(new TarefasExport, 'tarefas.'.$extensao);
-
-        }else{
+            return Excel::download(new TarefasExport, 'tarefas.' . $extensao);
+        } else {
 
             return redirect()->route('tarefa.index');
         }
     }
 
+    public function exportar()
+    {
+
+        $tarefas = auth()->user()->tarefas()->get();
+        $pdf = PDF::loadView('tarefa.pdf', ['tarefas' => $tarefas]);
+       // return $pdf->download('lista_de_tarefas.pdf');
+       $pdf->setPaper('a4','portrait');
+        return $pdf->stream('lista_de_tarefas.pdf');
+
+    }
 }

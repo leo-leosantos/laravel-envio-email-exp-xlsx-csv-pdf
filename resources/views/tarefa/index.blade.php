@@ -12,9 +12,10 @@
                             <div class="col-8">
                                 <div class="float-right">
                                     <a href="{{ route('tarefa.create') }}" class=" mr-3 float-right btn btn-success">Nova Tarefa</a>
-                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'xlsx']) }}" class=" mr-3 float-right btn btn-info">XLSX</a>
-                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'csv']) }}" class=" mr-3 float-right btn btn-info">CVS</a>
-                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'pdf']) }}" class=" mr-3 float-right btn btn-info">PDF</a>
+                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'xlsx']) }}" class="mr-3 float-right btn btn-info">XLSX</a>
+                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'csv']) }}" class="mr-3 float-right btn btn-info">CVS</a>
+                                    <a href="{{ route('tarefa.exportacao',['extensao'=>'pdf']) }}" class="mr-3 float-right btn btn-info">PDF</a>
+                                    <a href="{{ route('tarefa.exportar') }}" class="mr-3 float-right btn btn-info" target="_blank">DOMPDF</a>
 
                                 </div>
                             </div>
